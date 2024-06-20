@@ -2,12 +2,12 @@ package ru.netology.springboot;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.utility.TestEnvironment;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SpringbootApplicationTests {
@@ -30,8 +30,8 @@ class SpringbootApplicationTests {
         ResponseEntity<String> entitySecond = restTemplate.getForEntity("http://localhost:" +
                 containerSecond.getMappedPort(8081) + "/profile", String.class);
 
-        System.out.println(entityFirst.getBody());
-        System.out.println(entitySecond.getBody());
+        Assertions.assertEquals(entityFirst.getBody(), "Current profile is Dev");
+        Assertions.assertEquals(entitySecond.getBody(), "Current profile is Production");
     }
 
 }
